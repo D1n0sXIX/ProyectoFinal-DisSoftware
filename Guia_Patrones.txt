@@ -1,0 +1,34 @@
+Strategy pattern: Permite crear una familia de algoritmos poniéndolos en una clase de forma separada haciendo que los objetos puedan intercambiarlas por si quieres tener la misma función pero con algoritmos distintos
+
+Obvserver pattern: Nos permite modificar el estado de un objeto si otro objeto cambia
+
+State pattern: nos permite hacer que el programa se encuentre en varios estados, como las marchas de un motor
+
+Singleton: Se utiliza para tener una única clase -> funcionan como variables globales pero en formato de clase
+
+Decorator: Nos permite añadir comportamientos a una clase las veces que queramos
+
+Factory : nos permite separar la construcción del producto del código que va a usar dicho producto
+
+Abstract factory: nos permite crear familias de objetos relacionados sin especificar que tipo de objeto son (cuando haya que usar mas de una factoria usa una factoria abstracta)
+
+Template: nos permite romper un algoritmo en diferentes métodos, definiendo un esqueleto
+
+Facade : no entiendo na
+
+Adapter : nos permite hacer objetos con interfaces que no son compatibles colaborar usando herencia y composición
+
+Deberíamos usar:
+	- Strategy + template : para las acciones
+	- State para los diferentes estados, combate, nivel, etc
+	- Decorator para objetos y características de los personajes
+	- Abstrarct Factory para crear los personajes
+	- Obveserver para que los personajes se comuniquen
+
+
+
+
+
+
+
+
