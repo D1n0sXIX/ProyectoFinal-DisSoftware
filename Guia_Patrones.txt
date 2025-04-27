@@ -20,10 +20,11 @@ Adapter : nos permite hacer objetos con interfaces que no son compatibles colabo
 
 Deberíamos usar:
 	- Strategy + template : para las acciones
-	- State para los diferentes estados, combate, nivel, etc
-	- Decorator para objetos y características de los personajes
-	- Abstrarct Factory para crear los personajes
-	- Obveserver para que los personajes se comuniquen
+	- Decorator: para objetos y características de los personajes
+	- Abstract Factory: crear los personajes + partys
+	- Obveserver : comunicacione entre partys -> la party observa a los personajes que la forman y comunica a la otra party
+	- Adapter para poder comunicar diferentes personajes con atributos distintos
+	- State : para detrerminar la dificultad dependiendo de la ronda
 
 
 
