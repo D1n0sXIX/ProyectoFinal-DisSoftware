@@ -1,6 +1,6 @@
 package enums;
 
-public enum tipoPersonaje {
+public enum TipoPersonaje {
     GUERRERO,
     RANGO,
     APOYO

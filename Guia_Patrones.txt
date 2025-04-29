@@ -26,39 +26,48 @@ Deberíamos usar:
 	- State : para determinara la dificultad dependiendo de la ronda
 
 He hecho más o menos un esqueleto de los paquetes
-En el paqete clases estan repartidas las clases de menor a mayor nivel
-	- El nivel 0 seria el mas bajo nivel como por ejemplo la ronda que contienen dos partys
+En el paquete clases estan repartidas las clases de menor a mayor nivel
+	- El nivel 0 seria el mas bajo nivel como por ejemplo la fase que contienen dos partys
 	- En el nivel 1 estarian las partys que contienen personajes
 	- nivel 2 los personajes que tienen objetos
 	- nivel 3 los objetos (decoradores)
 	- nivel 4 clases que sean metodos tal vez como por ejemplo tipos de ataques
+Ademas existe los paquetes patrones donde estan todos los diseños que vamos a usar
+Y tambien  un paquete que guarda todos los enums
+	hay enum de los items: espada, arco, baculo, pechera, pocion, bomba
+	Hay enum de personajes: guerrero, rango y apoyo
+	Hay enum del tipo de fase en el que estamos fase_1 (nos dan items como espada, arco),
+	 fase_2( nos dan un baculo porque cura), fase_3 (nos dan items consummibles), fase_4 y fase_5 (en estas nos dan items aleatorios)
 
 La estructura del programa sería la siguiuente:
-- Los estados serian los diferentes niveles que hay, deberiamos hacer max 5 y que simplemente por nivel la dificultad aumente un poco y te permita hacer cosas nuevas (el juego seria como un tutorial)
-	- Primera ronda te permite atacar
-	- Segunda ronda ya hay items
-	- En la tercera ronda aparecen los efectos en area
-	- Y ya en la 4 y 5 ronda batalla normal
+- Las fases serian los diferentes niveles 
+	- Primera fases te da items que atacan
+	- Segunda fases dan items que curan
+	- En la tercera fases consumibles
+	- Y ya en la 4 y 5 fases batalla normal
+
+	En cada Fase hay un numero de rondas y solo termina la fase si la party enemiga muere o muere la aliada
+	Si la party aliada muere se acaba el juego, si es la enemiga se pasa a la siguiente fase y si es la quinta ganas
 
 Sobre los patrones de diseño:
 -Existen dos partys que son observadores
 	Estas observan a sus personajes y reaccionan dependiendo de lo que quiera hacer una party: usar un item, interactuar con un aliado u enemigo etc
 
-- Sobre los personajes hay varios tipos ya los iremos decidiendo con diferentes stats que pueden ser modificadas con items 
 
 - Los items pueden variar tanto tipos de armas, armaduras y items usables como pociones que curan mejoran el ataque etc
 
--Deberiamos crear dos fabricas abstractas una para personajes (creo que para esta en concreto seria unicamente una fabrica normal)
+-Deberiamos crear dos fabricas una abstracta (para items, consumibles y no consumibles) y para concreta (para personaje) una para personajes (creo que para esta en concreto seria unicamente una fabrica normal)
 y una abstracta para los items
-	Tanto el tipo de personaje como el tipo de items seran enums de manual
 
-- Los items serian decoradores que permiten realizar ciertos metodos y dependiendo del item se eliminan o no al usarlos
+- Los items serian decoradores q permiten ciertas acciones, ya que estos tienen los metodos que te permiten interactuar
+	Si un guerrero no tiene la espada a la hora de que ataque no hara daño por ejemplo
+	Y si un personaje de apoyo no tiene un baculo no puede curar
 
-- Tipos de personajes: luchador, rango y apoyo -> tienen nombre, vida, estamina, y atributos como daño y armadura
-- Cada personaje tiene un tipo de estrategia que hereda de la estrategia atacar
+- Tipos de personajes: luchador, rango y apoyo -> tienen nombre, vida, estamina, daño y armadura
+- Cada personaje tiene la estrategia qeu es interactuar con un template que varia en atacar, curar o usar consumible
 
-- Lo mismo pasa con los objetos usables -> pociones y bombas
--Solo ciertos personajes pueden usar ciertos objetos
+- Los objetos usables -> pociones y bombas al tenerlos te permiten usarlos las pociones curan a quien los usa y las bombas hacen daño a todos los enemigos de la otra party
+-Solo ciertos personajes pueden usar ciertos objetos solo un guerrero puede usar la espada o un rango puede solo usar un arco por ejemplo
 
 
 
