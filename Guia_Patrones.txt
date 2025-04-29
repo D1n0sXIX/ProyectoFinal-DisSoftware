@@ -23,10 +23,42 @@ Deberíamos usar:
 	- Decorator: para objetos y características de los personajes
 	- Abstract Factory: crear los personajes + partys
 	- Obveserver : comunicacione entre partys -> la party observa a los personajes que la forman y comunica a la otra party
-	- Adapter para poder comunicar diferentes personajes con atributos distintos
-	- State : para detrerminar la dificultad dependiendo de la ronda
+	- State : para determinara la dificultad dependiendo de la ronda
 
+He hecho más o menos un esqueleto de los paquetes
+En el paqete clases estan repartidas las clases de menor a mayor nivel
+	- El nivel 0 seria el mas bajo nivel como por ejemplo la ronda que contienen dos partys
+	- En el nivel 1 estarian las partys que contienen personajes
+	- nivel 2 los personajes que tienen objetos
+	- nivel 3 los objetos (decoradores)
+	- nivel 4 clases que sean metodos tal vez como por ejemplo tipos de ataques
 
+La estructura del programa sería la siguiuente:
+- Los estados serian los diferentes niveles que hay, deberiamos hacer max 5 y que simplemente por nivel la dificultad aumente un poco y te permita hacer cosas nuevas (el juego seria como un tutorial)
+	- Primera ronda te permite atacar
+	- Segunda ronda ya hay items
+	- En la tercera ronda aparecen los efectos en area
+	- Y ya en la 4 y 5 ronda batalla normal
+
+Sobre los patrones de diseño:
+-Existen dos partys que son observadores
+	Estas observan a sus personajes y reaccionan dependiendo de lo que quiera hacer una party: usar un item, interactuar con un aliado u enemigo etc
+
+- Sobre los personajes hay varios tipos ya los iremos decidiendo con diferentes stats que pueden ser modificadas con items 
+
+- Los items pueden variar tanto tipos de armas, armaduras y items usables como pociones que curan mejoran el ataque etc
+
+-Deberiamos crear dos fabricas abstractas una para personajes (creo que para esta en concreto seria unicamente una fabrica normal)
+y una abstracta para los items
+	Tanto el tipo de personaje como el tipo de items seran enums de manual
+
+- Los items serian decoradores que permiten realizar ciertos metodos y dependiendo del item se eliminan o no al usarlos
+
+- Tipos de personajes: luchador, rango y apoyo -> tienen nombre, vida, estamina, y atributos como daño y armadura
+- Cada personaje tiene un tipo de estrategia que hereda de la estrategia atacar
+
+- Lo mismo pasa con los objetos usables -> pociones y bombas
+-Solo ciertos personajes pueden usar ciertos objetos
 
 
 
