@@ -1,4 +1,4 @@
-package personajes;
+package clases.nivel_2;
 
 public interface Personaje {
 

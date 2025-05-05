@@ -1,6 +1,6 @@
 package clases.nivel_3;
 
-import clases.nivel_2.enums.TipoItems;
+import enums.TipoItems;
 
 public class EquipoConsumible extends Equipo{
     public EquipoConsumible(TipoItems tipo){

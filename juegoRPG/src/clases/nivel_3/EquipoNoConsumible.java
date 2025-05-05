@@ -1,13 +1,13 @@
 package clases.nivel_3;
 
-import clases.nivel_2.enums.TipoItems;
+import enums.TipoItems;
 
 public class EquipoNoConsumible extends Equipo{
     public EquipoNoConsumible(TipoItems tipo){
         super(tipo.name(), calcularDanio(tipo), tipo);
     }
 
-    private static int calcularDanio(TipoItem tipo) {
+    private static int calcularDanio(TipoItems tipo) {
         switch (tipo) {
             case ESPADA: return 20; // Hace 20 de daño
             case ARCO: return 30; // Hace 30 de Daño

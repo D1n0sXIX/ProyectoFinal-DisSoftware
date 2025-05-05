@@ -1,4 +1,4 @@
-package personajes;
+package clases.nivel_2;
 
 public class Apoyo extends Jugador {
     //las estadísticas en mayúscula son las por defecto.
