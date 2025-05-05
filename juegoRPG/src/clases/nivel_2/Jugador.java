@@ -1,4 +1,4 @@
-package personajes;
+package clases.nivel_2;
 
 public abstract class Jugador implements Personaje{
     private Integer vida = 50;

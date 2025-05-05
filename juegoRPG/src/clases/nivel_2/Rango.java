@@ -1,6 +1,6 @@
-package personajes;
+package clases.nivel_2;
 
-public class Luchador extends Jugador {
+public class Rango extends Jugador{
     //las estadísticas en mayúscula son las por defecto.
     public static final Integer VIDA = 50;
     public static final String NOMBRE = "";
@@ -10,22 +10,22 @@ public class Luchador extends Jugador {
     /*constructor
     quiero que aqui los parametros de vida, estamina, danio y armadura esten ya predefinidos por ser un luchador.
      */
-    public Luchador(String nombre, Integer vida, Integer estamina, Integer danio, Integer armadura) {
+    public Rango(String nombre, Integer vida, Integer estamina, Integer danio, Integer armadura) {
         super(vida, nombre, estamina, danio, armadura);
     }
-    public Luchador(){
+    public Rango(){
         this(NOMBRE);
     }
-    public Luchador(String nombre) {
+    public Rango(String nombre) {
         this(nombre, VIDA);
     }
-    public Luchador(String nombre, Integer vida) {
+    public Rango(String nombre, Integer vida) {
         this(nombre, vida, ESTAMINA);
     }
-    public Luchador(String nombre, Integer vida, Integer estamina) {
+    public Rango(String nombre, Integer vida, Integer estamina) {
         this(nombre, vida, estamina, DANIO);
     }
-    public Luchador(String nombre, Integer vida, Integer estamina, Integer danio) {
+    public Rango(String nombre, Integer vida, Integer estamina, Integer danio) {
         this(nombre, vida, estamina, danio, ARMADURA);
     }
 

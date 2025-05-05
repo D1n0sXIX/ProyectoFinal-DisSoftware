@@ -1,4 +1,4 @@
-package enums;
+package clases.nivel_2.enums;
 
 public enum TipoRonda {
     ATAQUE,       // Ronda 1: solo atacar

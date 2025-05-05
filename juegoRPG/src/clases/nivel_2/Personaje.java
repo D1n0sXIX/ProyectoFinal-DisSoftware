@@ -1,5 +1,9 @@
-package clases.nivel_2;
+package personajes;
 
-public class Personaje  {
-    
+public interface Personaje {
+
+    void atacar();
+    void curar();
+    void usarObjeto();
+
 }
