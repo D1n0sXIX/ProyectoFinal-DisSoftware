@@ -30,17 +30,37 @@ public class Rango extends Jugador{
     }
 
     @Override
-    public void atacar() {
+    public void atacar(int cantidad) {
 
     }
 
     @Override
-    public void curar() {
+    public void curar(int cantidad) {
 
     }
 
     @Override
     public void usarObjeto() {
+
+    }
+
+    @Override
+    public String getNombre() {
+        return "";
+    }
+
+    @Override
+    public void subirArmadura(int cantidad) {
+
+    }
+
+    @Override
+    public int getDanio() {
+        return 0;
+    }
+
+    @Override
+    public void recibirDanio(int catidad) {
 
     }
 }
