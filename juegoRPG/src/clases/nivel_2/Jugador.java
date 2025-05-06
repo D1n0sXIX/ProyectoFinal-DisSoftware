@@ -1,6 +1,6 @@
 package clases.nivel_2;
 
-public abstract class Jugador implements PersonajeInterface {
+public abstract class Jugador implements JugadorInterface {
     private Integer vida = 50;
     private String nombre = "";
     private Integer estamina = 100;

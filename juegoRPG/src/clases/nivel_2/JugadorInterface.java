@@ -1,6 +1,6 @@
 package clases.nivel_2;
 
-public interface PersonajeInterface {
+public interface JugadorInterface {
 
     void atacar(int cantidad);
     void curar(int cantidad);

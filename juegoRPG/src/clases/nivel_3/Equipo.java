@@ -1,13 +1,9 @@
 package clases.nivel_3;
 
-<<<<<<< Updated upstream
-import enums.TipoItems;
-=======
 import clases.nivel_2.Jugador;
 import enums.TipoItem;
 import java.util.List;
 import patrones.strategy.forItems.usarItemStrategy;
->>>>>>> Stashed changes
 
 public abstract class Equipo implements EquipoInterface{
     protected String nombre;
