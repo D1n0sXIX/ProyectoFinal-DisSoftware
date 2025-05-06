@@ -1,33 +1,42 @@
 package clases.nivel_3;
 
-import enums.TipoItems;
+import clases.nivel_2.Jugador;
+import enums.TipoItem;
+import java.util.List;
+import patrones.strategy.forItems.*;
 
 public class EquipoConsumible extends Equipo{
-    public EquipoConsumible(TipoItems tipo){
+    public EquipoConsumible(TipoItem tipo) {
         super(tipo.name(), calcularDanio(tipo), tipo);
-    }
 
-    private static int calcularDanio(TipoItems tipo){
-        switch (tipo) {
-            case POCION: return 0;
-            case BOMBA: return 50;
-        }
-    }
-
-    @Override
-    public void usar() {
+        // Asignamos la estrategia según el tipo
         switch (tipo) {
             case POCION:
-                //System.out.println("Usas una poción y te curas.");
+                this.estrategia = new SanacionStrategy(30, true); // cura a sí mismo
                 break;
             case BOMBA:
-                //System.out.println("Lanzas una bomba. BOOM.");
+                this.estrategia = new AtaqueStrategy(true); // ataque en área
                 break;
         }
     }
 
+    private static int calcularDanio(TipoItem tipo) {
+        switch (tipo) {
+            case POCION: return 0;  // cura, no hace daño
+            case BOMBA: return 50;  // hace daño a todos
+            default: return 0;
+        }
+    }
+
     @Override
-    public boolean esConsumible(){
+    public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
+        if (estrategia != null) {
+            estrategia.usarItem(personaje, aliados, enemigos);
+        }
+    }
+
+    @Override
+    public boolean esConsumible() {
         return true;
     }
 }

@@ -1,6 +1,6 @@
 package enums;
 
-public enum TipoItems {
+public enum TipoItem {
     ESPADA,
     ARCO,
     BACULO,
