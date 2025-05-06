@@ -3,7 +3,7 @@ import clases.nivel_3.*;
 import enums.TipoItem;
 
 public class FabricaItems {
-    public static Equipo crearItem(TipoItems tipo) {
+    public static Equipo crearItem(TipoItem tipo) {
         switch (tipo) {
             case POCION:
             case BOMBA:

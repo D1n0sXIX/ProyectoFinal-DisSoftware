@@ -3,7 +3,10 @@ package clases.nivel_3;
 import clases.nivel_2.Jugador;
 import enums.TipoItem;
 import java.util.List;
-import patrones.strategy.forItems.*;
+import patrones.strategy.forItems.AtaqueStrategy;
+import patrones.strategy.forItems.MejorarArmaduraStrategy;
+import patrones.strategy.forItems.SanacionStrategy;
+
 
 public class EquipoNoConsumible extends Equipo {
 
@@ -25,7 +28,7 @@ public class EquipoNoConsumible extends Equipo {
         }
     }
 
-    private static int calcularDanio(TipoItems tipo) {
+    private static int calcularDanio(TipoItem tipo) {
         switch (tipo) {
             case ESPADA: return 20;
             case ARCO: return 30;

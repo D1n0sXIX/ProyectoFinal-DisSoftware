@@ -1,4 +1,4 @@
-package clases.nivel_2.enums;
+package enums;
 
 public enum TipoPersonaje {
     GUERRERO,
