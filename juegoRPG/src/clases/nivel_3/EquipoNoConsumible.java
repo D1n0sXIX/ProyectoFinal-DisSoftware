@@ -1,36 +1,44 @@
 package clases.nivel_3;
 
-import enums.TipoItems;
+import clases.nivel_2.Jugador;
+import enums.TipoItem;
+import java.util.List;
+import patrones.strategy.forItems.*;
 
-public class EquipoNoConsumible extends Equipo{
-    public EquipoNoConsumible(TipoItems tipo){
+public class EquipoNoConsumible extends Equipo {
+
+    public EquipoNoConsumible(TipoItem tipo) {
         super(tipo.name(), calcularDanio(tipo), tipo);
+
+        // Asignamos la estrategia según el tipo
+        switch (tipo) {
+            case ESPADA:
+            case ARCO:
+                this.estrategia = new AtaqueStrategy(false);
+                break;
+            case BACULO:
+                this.estrategia = new SanacionStrategy(25, false);
+                break;
+            case ARMADURA:
+                this.estrategia = new MejorarArmaduraStrategy();
+                break;
+        }
     }
 
     private static int calcularDanio(TipoItem tipo) {
         switch (tipo) {
-            case ESPADA: return 20; // Hace 20 de daño
-            case ARCO: return 30; // Hace 30 de Daño
-            case BACULO: return 25; // Cura 25
-            case ARMADURA: return 10; // Da 10 de armadura
+            case ESPADA: return 20;
+            case ARCO: return 30;
+            case BACULO: return 0; // Cura, no daño
+            case ARMADURA: return 0; // Da armadura, no daño
+            default: return 0;
         }
     }
 
     @Override
-    public void usar() {
-        switch (tipo) {
-            case ESPADA:
-                //System.out.println("Golpeas con la espada.");
-                break;
-            case ARCO:
-                //System.out.println("Disparas con el arco.");
-                break;
-            case BACULO:
-                //System.out.println("Lanzas magia con el báculo.");
-                break;
-            case ARMADURA:
-                //System.out.println("Te proteges con la armadura.");
-                break;
+    public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
+        if (estrategia != null) {
+            estrategia.usarItem(personaje, aliados, enemigos);
         }
     }
 
