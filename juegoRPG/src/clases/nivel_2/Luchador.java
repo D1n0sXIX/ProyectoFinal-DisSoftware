@@ -7,9 +7,7 @@ public class Luchador extends Jugador {
     public static final Integer ESTAMINA = 100;
     public static final Integer DANIO = 10;
     public static final Integer ARMADURA = 0;
-    /*constructor
-    quiero que aqui los parametros de vida, estamina, danio y armadura esten ya predefinidos por ser un luchador.
-     */
+
     public Luchador(String nombre, Integer vida, Integer estamina, Integer danio, Integer armadura) {
         super(vida, nombre, estamina, danio, armadura);
     }
