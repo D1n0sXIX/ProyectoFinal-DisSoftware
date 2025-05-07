@@ -1,7 +1,7 @@
 package enums;
 
 public enum TipoPersonaje {
-    LUCHADOR,
+    GUERRERO,
     RANGO,
     APOYO
 }
