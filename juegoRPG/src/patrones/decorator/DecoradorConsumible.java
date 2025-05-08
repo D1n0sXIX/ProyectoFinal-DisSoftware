@@ -3,8 +3,6 @@ package patrones.decorator;
 import clases.nivel_3.Equipo;
 import clases.nivel_2.Jugador;
 import java.util.List;
-//import patrones.strategy.forItems.AtaqueStrategy;
-//import patrones.strategy.forItems.SanacionStrategy;
 
 public class DecoradorConsumible extends EquipoDecorator{
 

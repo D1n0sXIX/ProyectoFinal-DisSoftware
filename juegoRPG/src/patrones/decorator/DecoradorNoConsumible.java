@@ -36,5 +36,4 @@ public class DecoradorNoConsumible extends EquipoDecorator{
     public boolean esConsumible() {
         return false;
     }
-
 }
