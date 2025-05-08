@@ -1,9 +1,9 @@
 package clases.nivel_1;
 
-import patrones.obveserver.*;
 import clases.nivel_2.Jugador;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import patrones.obveserver.*;
 
 public class Party {
   private String nombre;
@@ -38,4 +38,8 @@ public class Party {
   public List<Jugador> getJugadores() {
       return this.jugadores;
   }
+
+    public boolean isPartyEmpty() {
+        return jugadores.isEmpty();
+    }
 }
