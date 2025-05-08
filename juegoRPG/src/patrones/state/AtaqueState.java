@@ -10,7 +10,7 @@ public class AtaqueState implements RondaState{
   }
   public void ejecutarTurno() {
     System.out.println("Ronda 1(tutorial): -ATAQUE-");
-    ronda.darObjeto(TipoItem.ESPADA);
-    ronda.darObjeto(TipoItem.ARCO);
+    ronda.darObjetoA(0, TipoItem.ESPADA);
+    ronda.darObjetoA(1, TipoItem.ARCO);
   }
 }

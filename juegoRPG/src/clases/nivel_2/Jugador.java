@@ -44,10 +44,10 @@ public abstract class Jugador implements JugadorInterface {
     }
 
     @Override
-    public void recibirDanio(int cantidad) {
+    public void recibirDanio(Integer cantidad) {
         this.vida -= cantidad;  // Aplica el daño recibido
     }
-    
+
     @Override
     public List<Equipo> getItems() {
         return this.items;  // Retorna la lista completa de ítems (decoradores)
@@ -62,5 +62,14 @@ public abstract class Jugador implements JugadorInterface {
     public Integer getArmadura(){
         return this.armadura;
     }
+
+    public Integer getVida() {
+      return this.vida;
+    }
+
+    public void recibirCuracion(Integer cantidad) {
+      this.vida += cantidad;
+    }
+
 
 }

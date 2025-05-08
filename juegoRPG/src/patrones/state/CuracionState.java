@@ -10,7 +10,7 @@ public class CuracionState implements RondaState{
   }
   public void ejecutarTurno() {
     System.out.println("Ronda 2(tutorial): -CURACIONES-");
-    ronda.darObjeto(TipoItem.BACULO);
-    ronda.darObjeto(TipoItem.ARMADURA);
+    ronda.darObjetoA(2, TipoItem.BACULO);
+    ronda.darObjetoA(0, TipoItem.ARMADURA);
   }
 }
