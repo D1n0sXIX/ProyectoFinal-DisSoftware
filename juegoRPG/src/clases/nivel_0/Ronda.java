@@ -4,6 +4,7 @@ import enums.*;
 import patrones.state.*;
 import clases.nivel_1.Party;
 import patrones.abstractFactory.*;
+import patrones.decorator.EquipoDecorator;
 import clases.nivel_3.*;
 import clases.nivel_2.*
 ;
@@ -70,15 +71,20 @@ public class Ronda {
         return partyJugador;
     }
 
-    public void darObjeto(TipoItem tipo) {
-      Equipo item = FabricaItems.crearItem(tipo);
-      System.out.println("Dando el item: " + item.getNombre());
-      Party[] parties = new Party[] { this.partyJugador, this.partyEnemiga };
-      for (Party party : parties) {
-          for (Jugador jugador : party.getJugadores()) {
-              jugador.recibirItem(item);
-          }
-      }
+    public void darObjetoA(Integer id, TipoItem tipo) {
+        // Crear el equipo según el tipo de objeto
+        Equipo item = FabricaItems.crearItem(tipo);
+        // Obtener el jugador correspondiente en la party por su ID
+        Jugador jugador = partyJugador.getJugadores().get(id); // Obtener jugador de la party
+
+        // Decoramos el objeto si el jugador ya tiene un equipo
+        if (jugador.getEquipo() != null) {
+            jugador.recibirObjeto(new EquipoDecorator(jugador, item)); // Decorar el equipo existente
+        } else {
+            jugador.recibirObjeto(item); // Si no tiene equipo, simplemente recibe el objeto
+        }
+
+        System.out.println("Se ha dado el objeto: " + item.getNombre() + " a " + jugador.getNombre());
     }
     public int getTurno() {
         return turno;
