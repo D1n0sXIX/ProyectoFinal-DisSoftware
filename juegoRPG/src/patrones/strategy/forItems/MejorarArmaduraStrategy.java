@@ -12,5 +12,4 @@ public class MejorarArmaduraStrategy implements usarItemStrategy{
             System.out.println(personaje.getNombre() + " mejora la armadura de " + aliado.getNombre());
         }
     }
-
 }
