@@ -16,11 +16,11 @@ public class SanacionStrategy implements usarItemStrategy{
     @Override
     public void usarItem(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
         if (curarseASiMismo) {
-            personaje.curar(cantidad);
+            personaje.curar();
             System.out.println(personaje.getNombre() + " se cura " + cantidad + " de vida.");
         } else if (!aliados.isEmpty()) {
             Jugador objetivo = aliados.get(0); // puedes hacer selección más avanzada luego
-            objetivo.curar(cantidad);
+            objetivo.curar();
             System.out.println(personaje.getNombre() + " cura a " + objetivo.getNombre() + " con " + cantidad + " de vida.");
         }
     }

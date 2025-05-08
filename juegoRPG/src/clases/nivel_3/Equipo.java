@@ -7,7 +7,7 @@ import patrones.strategy.forItems.usarItemStrategy;
 
 public abstract class Equipo implements EquipoInterface{
     protected String nombre;
-    protected int danio;
+    protected Integer danio;
     protected TipoItem tipo;
     protected usarItemStrategy estrategia;
 
