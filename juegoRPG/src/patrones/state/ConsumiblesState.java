@@ -10,7 +10,7 @@ public class ConsumiblesState implements RondaState{
   }
   public void ejecutarTurno() {
     System.out.println("Ronda 3(tutorial): -CONSUMIBLES-");
-    ronda.darObjeto(TipoItem.POCION);
-    ronda.darObjeto(TipoItem.BOMBA);
+    ronda.darObjetoA(2, TipoItem.POCION);
+    ronda.darObjetoA(1, TipoItem.BOMBA);
   }
 }

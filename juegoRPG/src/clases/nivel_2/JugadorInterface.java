@@ -4,10 +4,12 @@ import java.util.List;
 
 public interface JugadorInterface {
     String getNombre();
-    void recibirDanio(int catidad);
+    void recibirDanio(Integer catidad);
     void recibirObjeto(Equipo equipo);
     void usarObjeto(Integer idObjeto);
     public List<Equipo> getItems();
     public void setArmadura(Integer cantidad);
     public Integer getArmadura();
+    public void recibirCuracion(Integer cantidad);
+    public Integer getVida();
 }

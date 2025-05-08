@@ -6,9 +6,9 @@ import patrones.strategy.forItems.AtaqueStrategy;
 import patrones.strategy.forItems.MejorarArmaduraStrategy;
 import patrones.strategy.forItems.SanacionStrategy;
 
-public class EquipoNoConsumible extends Equipo {
+public class EquipoConsumible extends Equipo {
 
-    public EquipoNoConsumible(TipoItem tipo) {
+    public EquipoConsumible(TipoItem tipo) {
         super(tipo.name(), calcularDanio(tipo), tipo);
 
         // Asignamos la estrategia según el tipo
