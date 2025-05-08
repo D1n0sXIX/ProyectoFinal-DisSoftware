@@ -2,8 +2,8 @@ package clases.nivel_2;
 
 public interface JugadorInterface {
 
-    void atacar(int cantidad);
-    void curar(int cantidad);
+    void atacar();
+    void curar();
     void usarObjeto();
     // Necesito que implementos estos metodos Doro
     String getNombre();

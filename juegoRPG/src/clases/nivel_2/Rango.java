@@ -30,12 +30,12 @@ public class Rango extends Jugador{
     }
 
     @Override
-    public void atacar(int cantidad) {
+    public void atacar() {
 
     }
 
     @Override
-    public void curar(int cantidad) {
+    public void curar() {
 
     }
 
