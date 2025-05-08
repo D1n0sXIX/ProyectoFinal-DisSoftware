@@ -1,12 +1,9 @@
 package clases.nivel_3;
 
-import clases.nivel_2.Jugador;
 import enums.TipoItem;
-import java.util.List;
 import patrones.strategy.forItems.AtaqueStrategy;
 import patrones.strategy.forItems.MejorarArmaduraStrategy;
 import patrones.strategy.forItems.SanacionStrategy;
-
 
 public class EquipoNoConsumible extends Equipo {
 
@@ -17,13 +14,13 @@ public class EquipoNoConsumible extends Equipo {
         switch (tipo) {
             case ESPADA:
             case ARCO:
-                this.estrategia = new AtaqueStrategy(false);
+                this.estrategia = new AtaqueStrategy(false);  // Estrategia de ataque para espadas y arcos
                 break;
             case BACULO:
-                this.estrategia = new SanacionStrategy(25, false);
+                this.estrategia = new SanacionStrategy(25, false);  // Estrategia de sanación para báculos
                 break;
             case ARMADURA:
-                this.estrategia = new MejorarArmaduraStrategy();
+                this.estrategia = new MejorarArmaduraStrategy();  // Estrategia de mejora de armadura
                 break;
         }
     }
@@ -35,13 +32,6 @@ public class EquipoNoConsumible extends Equipo {
             case BACULO: return 0; // Cura, no daño
             case ARMADURA: return 0; // Da armadura, no daño
             default: return 0;
-        }
-    }
-
-    @Override
-    public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
-        if (estrategia != null) {
-            estrategia.usarItem(personaje, aliados, enemigos);
         }
     }
 

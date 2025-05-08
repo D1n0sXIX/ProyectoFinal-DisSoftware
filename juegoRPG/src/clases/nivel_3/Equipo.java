@@ -5,7 +5,7 @@ import enums.TipoItem;
 import java.util.List;
 import patrones.strategy.forItems.usarItemStrategy;
 
-public abstract class Equipo implements EquipoInterface{
+public abstract class Equipo implements EquipoInterface {
     protected String nombre;
     protected Integer danio;
     protected TipoItem tipo;
@@ -16,13 +16,15 @@ public abstract class Equipo implements EquipoInterface{
         this.danio = danio;
         this.tipo = tipo;
     }
+
     @Override
     public String getNombre() {
         return nombre;
     }
+
     @Override
     public int getDanio() {
-        return danio;
+        return danio;  // El daño se obtiene directamente del objeto
     }
 
     public TipoItem getTipo() {
@@ -35,11 +37,10 @@ public abstract class Equipo implements EquipoInterface{
 
     @Override
     public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
-    if (estrategia != null) {
-        estrategia.usarItem(personaje, aliados, enemigos);
+        if (estrategia != null) {
+            estrategia.usarItem(personaje, aliados, enemigos);  // Usamos la estrategia asociada al ítem
+        }
     }
-}
-
 
     public abstract boolean esConsumible(); // importante para el personaje
 }

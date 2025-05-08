@@ -2,41 +2,42 @@ package clases.nivel_3;
 
 import clases.nivel_2.Jugador;
 import enums.TipoItem;
-import java.util.List;
-import patrones.strategy.forItems.*;
+import patrones.strategy.forItems.AtaqueStrategy;
+import patrones.strategy.forItems.MejorarArmaduraStrategy;
+import patrones.strategy.forItems.SanacionStrategy;
 
-public class EquipoConsumible extends Equipo{
-    public EquipoConsumible(TipoItem tipo) {
+public class EquipoNoConsumible extends Equipo {
+
+    public EquipoNoConsumible(TipoItem tipo) {
         super(tipo.name(), calcularDanio(tipo), tipo);
 
         // Asignamos la estrategia según el tipo
         switch (tipo) {
-            case POCION:
-                this.estrategia = new SanacionStrategy(30, true); // cura a sí mismo
+            case ESPADA:
+            case ARCO:
+                this.estrategia = new AtaqueStrategy(false);  // Estrategia de ataque para espadas y arcos
                 break;
-            case BOMBA:
-                this.estrategia = new AtaqueStrategy(true); // ataque en área
+            case BACULO:
+                this.estrategia = new SanacionStrategy(25, false);  // Estrategia de sanación para báculos
+                break;
+            case ARMADURA:
+                this.estrategia = new MejorarArmaduraStrategy();  // Estrategia de mejora de armadura
                 break;
         }
     }
 
     private static int calcularDanio(TipoItem tipo) {
         switch (tipo) {
-            case POCION: return 0;  // cura, no hace daño
-            case BOMBA: return 50;  // hace daño a todos
+            case ESPADA: return 20;
+            case ARCO: return 30;
+            case BACULO: return 0; // Cura, no daño
+            case ARMADURA: return 0; // Da armadura, no daño
             default: return 0;
         }
     }
 
     @Override
-    public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
-        if (estrategia != null) {
-            estrategia.usarItem(personaje, aliados, enemigos);
-        }
-    }
-
-    @Override
     public boolean esConsumible() {
-        return true;
+        return false;
     }
 }

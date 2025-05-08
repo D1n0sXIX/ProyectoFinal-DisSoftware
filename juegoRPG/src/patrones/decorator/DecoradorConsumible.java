@@ -1,27 +1,29 @@
 package patrones.decorator;
 
-import clases.nivel_3.Equipo;
 import clases.nivel_2.Jugador;
+import clases.nivel_3.Equipo;
 import java.util.List;
+import patrones.strategy.forItems.AtaqueStrategy;
+import patrones.strategy.forItems.SanacionStrategy;
 
-public class DecoradorConsumible extends EquipoDecorator{
+public class DecoradorConsumible extends EquipoDecorator {
 
     public DecoradorConsumible(Jugador jugador, Equipo equipoDecorado) {
         super(jugador, equipoDecorado);
-
     }
 
     @Override
-    public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos){
-
-        switch(tipo){
+    public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
+        switch (tipo) {
             case BOMBA:
                 System.out.println(personaje.getNombre() + ": ALLAH AKBAR");
-                this.estrategia.usarItem(personaje, aliados, enemigos);
+                // Usamos la estrategia de ataque
+                new AtaqueStrategy(true).usarItem(personaje, aliados, enemigos);
                 break;
             case POCION:
-                System.out.println(personaje.getNombre() + " se ha tomado una xela");
-                this.estrategia.usarItem(personaje, aliados, enemigos);
+                System.out.println(personaje.getNombre() + " se ha tomado una poción");
+                // Usamos la estrategia de sanación
+                new SanacionStrategy(20, false).usarItem(personaje, aliados, enemigos);
                 break;
         }
     }
