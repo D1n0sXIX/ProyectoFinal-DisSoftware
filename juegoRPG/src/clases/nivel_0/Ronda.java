@@ -5,6 +5,7 @@ import clases.nivel_2.*;
 import clases.nivel_3.*;
 import enums.*;
 import patrones.abstractFactory.*;
+import patrones.factory.FabricaPersonajes;
 import patrones.state.*;
 import java.util.Scanner;
 import java.util.List;
@@ -32,23 +33,23 @@ public class Ronda {
 
     public void ejecutarTurno() {
       System.out.println("\n========================================");
-      System.out.printf("        RONDA %d — Turno %d%n", numeroRonda, turno);
+      System.out.printf("        \033[35mRONDA %d — Turno\033[0m %d%n", numeroRonda, turno);
       System.out.println("========================================\n");
       if (esTurnoJugador) {
-        System.out.println("\n>>> TURNO: TU PARTY <<<");
+        System.out.println("\n>>> TURNO: \033[32mTU PARTY\033[0m <<<");
         System.out.print("Es el turno de TU party!." + "-Turno: " + this.turno + "\n");
         for (Jugador jugador : partyJugador.getJugadores()) {
-          System.out.println("\n--- Turno de: " + jugador.getNombre() + " ---");
+          System.out.println("\n--- Turno de: \033[32m" + jugador.getNombre() + "\033[0m ---");
           esTurnoDe(jugador);
           verificarEliminacion();
           if (partyEnemiga.isPartyEmpty()) break;
         }
         esTurnoJugador = false;
       } else {
-        System.out.println("\n>>> TURNO: PARTY ENEMIGA <<<");
+        System.out.println("\n>>> TURNO: \033[35mPARTY ENEMIGA\033[0m <<<");
         System.out.println("Es el turno de la Party Enemiga." + "-Turno: " + this.turno);
         for (Jugador enemigo : partyEnemiga.getJugadores()) {
-          System.out.println("\n--- Turno de: " + enemigo.getNombre() + " ---");
+          System.out.println("\n--- Turno de: \033[35m" + enemigo.getNombre() + "\033[0m ---");
           turnoAleatorioEnemigo(enemigo);
           verificarEliminacion();
           if (partyJugador.isPartyEmpty()) break;
@@ -71,9 +72,9 @@ public class Ronda {
       if (partyEnemiga.isPartyEmpty()) {
           if (this.numeroRonda >= 5) {
             System.out.println("\n🏆 ¡Enhorabuena! Has completado las 5 rondas y ganado la partida.");
-              terminarJuego(); // Terminamos el juego
+              terminarJuego();
           } else {
-              pasarSiguienteFase(); // Pasamos a la siguiente fase si no estamos en la ronda 5
+              pasarSiguienteFase();
           }
       }
       else if (this.numeroRonda > 5) {
@@ -97,28 +98,29 @@ public class Ronda {
         this.estadoActual = new CompletaState();
       }
       this.numeroRonda++;
-      System.out.println("Pasando a la siguiente fase: Ronda " + this.numeroRonda);
+      System.out.println("\n ---------- Pasando a la siguiente fase: Ronda ---------- " + this.numeroRonda);
       this.estadoActual.setContexto(this);
       this.estadoActual.ejecutarTurno();
       if (this.partyEnemiga.isPartyEmpty()) {
-        System.out.println("Generando enemigos...");
+        System.out.println("---------- Generando enemigos... ---------- ");
         reiniciarPartyEnemiga();
       }
     }
 
     private void reiniciarPartyEnemiga() {
-        partyEnemiga.getJugadores().clear();
-        Luchador luchadorEnemigo = new Luchador();
-        luchadorEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.ESPADA));
-        partyEnemiga.addJugador(luchadorEnemigo);
-
-        Rango rangoEnemigo = new Rango();
-        rangoEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.ARCO));
-        partyEnemiga.addJugador(rangoEnemigo);
-
-        Apoyo apoyoEnemigo = new Apoyo();
-        apoyoEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.BACULO));
-        partyEnemiga.addJugador(apoyoEnemigo);
+      partyEnemiga.getJugadores().clear();
+      Jugador luchadorEnemigo = FabricaPersonajes.crearPersonaje(TipoPersonaje.LUCHADOR);
+      luchadorEnemigo.setNombre("Luchador Enemigo");
+      luchadorEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.ESPADA));
+      partyEnemiga.addJugador(luchadorEnemigo);
+      Jugador rangoEnemigo = FabricaPersonajes.crearPersonaje(TipoPersonaje.RANGO);
+      rangoEnemigo.setNombre("Rango Enemigo");
+      rangoEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.ARCO));
+      partyEnemiga.addJugador(rangoEnemigo);
+      Jugador apoyoEnemigo = FabricaPersonajes.crearPersonaje(TipoPersonaje.APOYO);
+      apoyoEnemigo.setNombre("Apoyo Enemigo");
+      apoyoEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.BACULO));
+      partyEnemiga.addJugador(apoyoEnemigo);
     }
 
     public boolean terminarJuego() {
@@ -139,15 +141,9 @@ public class Ronda {
     }
 
     public void darObjetoA(Integer id, TipoItem tipo) {
-        // Crear el equipo según el tipo de objeto
         Equipo item = FabricaItems.crearItem(tipo);
-
-        // Obtener el jugador correspondiente en la party por su ID
-        Jugador jugador = partyJugador.getJugadores().get(id); // Obtener jugador de la party
-
-        // El jugador recibe el objeto decorador
+        Jugador jugador = partyJugador.getJugadores().get(id);
         jugador.recibirObjeto(item);
-
         System.out.println("Se ha dado el objeto: " + item.getNombre() + " a " + jugador.getNombre());
     }
 
@@ -160,10 +156,8 @@ public class Ronda {
     }
 
     public void esTurnoDe(Jugador jugador) {
-        Scanner escaner = new Scanner(System.in);  // Deja el Scanner abierto
+        Scanner escaner = new Scanner(System.in);
         Integer opcion = null;
-
-        // Bucle para garantizar que se ingrese una opción válida
         do {
           System.out.println("\n--- ESTADO DE LOS JUGADORES ---");
           System.out.printf("%-30s %s%n", "Party Jugador", "Party Enemiga");
@@ -178,24 +172,22 @@ public class Ronda {
               System.out.printf("%-30s %s%n", izq, der);
           }
             System.out.println("\n1. Usar item  -  2. Cambiar objeto  -  3. Pasar turno  -  4. Listar objetos");
-            if (escaner.hasNextInt()) {  // Si la entrada es un número entero
-                opcion = escaner.nextInt();  // Leer el número ingresado
+            if (escaner.hasNextInt()) {
+                opcion = escaner.nextInt();
                 if (escaner.hasNextLine()) {
-                    escaner.nextLine();  // Consumir la nueva línea sobrante
+                    escaner.nextLine();
                 }
 
                 if (opcion >= 1 && opcion <= 4) {
-                    // Validar que la opción esté entre 1 y 3
-                    seleccionarAccion(opcion, jugador);  // Ejecutar la acción seleccionada
+                    seleccionarAccion(opcion, jugador);
                 } else {
                     System.out.println("Opción inválida. Por favor, ingresa un número entre 1 y 3.");
                 }
             } else {
                 System.out.println("Entrada inválida. Por favor, ingresa un número entero.");
-                escaner.next();  // Descartar la entrada no válida
+                escaner.next();
             }
-        } while (opcion == null || (opcion != 3 && opcion != 1));  // Repetir hasta que se ingrese una opción válida
-        // No cerramos el scanner aquí, se cerrará cuando termine toda la interacción del programa
+        } while (opcion == null || (opcion != 3 && opcion != 1));
     }
 
 
@@ -203,8 +195,7 @@ public class Ronda {
     private void turnoAleatorioEnemigo(Jugador enemigo) {
       Random random = new Random();
       int probabilidad = random.nextInt(100);
-      System.out.printf("\n--- prob num: %d---\n", probabilidad);
-      if (probabilidad < 77) {
+      if (probabilidad < 50) {
           System.out.println(enemigo.getNombre() + " ha pasado el turno.");
       } else {
           System.out.println(enemigo.getNombre() + " está atacando...");

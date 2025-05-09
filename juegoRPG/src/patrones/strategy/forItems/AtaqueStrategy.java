@@ -14,13 +14,10 @@ public class AtaqueStrategy implements usarItemStrategy {
     @Override
     public void usarItem(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
         if (enemigos == null || enemigos.isEmpty()) return;
-
-        // Obtener el daño del ítem (decorador) que está siendo usado por el jugador
-        int danio = personaje.getItems().get(0).getDanio(); // El daño lo toma del primer ítem en la lista de items
-
+        int danio = personaje.getItems().get(0).getDanio();
         if (atacarATodos) {
             for (Jugador enemigo : enemigos) {
-                enemigo.recibirDanio(danio);  // Aplica el daño
+                enemigo.recibirDanio(danio);
                 System.out.println(personaje.getNombre() + " ataca a " + enemigo.getNombre() + " con ataque en área");
             }
         } else {

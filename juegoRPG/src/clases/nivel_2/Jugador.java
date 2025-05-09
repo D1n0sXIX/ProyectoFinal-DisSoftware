@@ -3,6 +3,8 @@ package clases.nivel_2;
 import clases.nivel_1.Party;
 import clases.nivel_3.Equipo;
 import enums.TipoItem;
+import patrones.decorator.DecoradorConsumible;
+import patrones.decorator.DecoradorNoConsumible;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,67 +12,49 @@ public abstract class Jugador implements JugadorInterface {
     private Integer vida;
     private String nombre;
     private Integer armadura;
-    private List<Equipo> items;  // Lista de objetos (decoradores) que el jugador tiene
+    private List<Equipo> items;
 
     public Jugador(Integer vida, String nombre, Integer armadura) {
         this.vida = vida;
         this.nombre = nombre;
         this.armadura = armadura;
-        this.items = new ArrayList<>();  // Aseguramos que la lista esté inicializada
+        this.items = new ArrayList<>();
     }
 
     @Override
 
     public void recibirObjeto(Equipo itemNuevo) {
-        if (itemNuevo != null) {
-            // Si el jugador ya tiene un equipo, lo decoramos con el nuevo objeto
-            this.items.add(itemNuevo);  // Añadimos el nuevo equipo a la lista
-            System.out.println(this.nombre + " ha recibido el objeto: " + itemNuevo.getNombre());
+      if (itemNuevo != null) {
+        if (itemNuevo.getTipo() == TipoItem.ESPADA || itemNuevo.getTipo() == TipoItem.ARCO || itemNuevo.getTipo() == TipoItem.BACULO) {
+            itemNuevo = new DecoradorNoConsumible(this, itemNuevo);
+        } else if (itemNuevo.getTipo() == TipoItem.POCION || itemNuevo.getTipo() == TipoItem.BOMBA) {
+            itemNuevo = new DecoradorConsumible(this, itemNuevo);
         }
+        this.items.add(itemNuevo);
+        System.out.println(this.nombre + " ha recibido el objeto: " + itemNuevo.getNombre());
+      }
     }
 
     @Override
     public void usarObjeto(Integer idObjeto, Party partyAliada, Party partyEnemiga) {
-    System.out.println("Se ha recogido bien");
-
-    if (idObjeto >= 0 && idObjeto < items.size()) {
-        Equipo equipo = items.get(idObjeto);  // Obtener el objeto por su ID
-
-        // Verificamos si el ítem es de tipo ataque (por ejemplo, espada o arco)
-        if (equipo.getTipo() == TipoItem.ESPADA || equipo.getTipo() == TipoItem.ARCO) {
-            // Si es un ítem de ataque, usamos la estrategia de ataque
-            System.out.println(this.nombre + " ha usado el ítem de ataque: " + equipo.getNombre());
-            equipo.usar(this, null, partyEnemiga.getJugadores());  // Aplica el daño al enemigo seleccionado
-
-            // Eliminar el objeto de la lista de items después de usarlo (si es no consumible)
-            items.remove(idObjeto);
-            System.out.println(this.nombre + " ha eliminado el ítem: " + equipo.getNombre());
-
-        } else if (equipo.getTipo() == TipoItem.BACULO || equipo.getTipo() == TipoItem.ARMADURA) {
-            // Si es un ítem de tipo curación o mejora de armadura
-            System.out.println(this.nombre + " ha usado el ítem de curación o armadura: " + equipo.getNombre());
-            equipo.usar(this, partyAliada.getJugadores(), null);  // En este caso no afecta a los enemigos, solo a los aliados o al propio jugador
-
-        } else if (equipo.getTipo() == TipoItem.BOMBA || equipo.getTipo() == TipoItem.POCION) {
-            // Si es un consumible
-            System.out.println(this.nombre + " ha usado el consumible: " + equipo.getNombre());
-            equipo.usar(this, partyAliada.getJugadores(), partyEnemiga.getJugadores());
-
-            // Eliminar el objeto consumible después de usarlo (esto debería funcionar ahora)
-            items.remove(idObjeto); // Eliminamos el consumible correctamente
-            System.out.println(this.nombre + " ha eliminado el consumible: " + equipo.getNombre());
-        }
-        else {
-            // Si el ítem no es un tipo de ataque o curación conocido
-            System.out.println("ERROR: Tipo de ítem desconocido.");
-        }
-    } else {
-        System.out.println("ERROR: No se encontró el objeto con ID: " + idObjeto);
+      if (idObjeto >= 0 && idObjeto < items.size()) {
+          Equipo equipo = items.get(idObjeto);
+          if (equipo.getTipo() == TipoItem.ESPADA || equipo.getTipo() == TipoItem.ARCO) {
+              equipo.usar(this, null, partyEnemiga.getJugadores());
+          } else if (equipo.getTipo() == TipoItem.BACULO || equipo.getTipo() == TipoItem.ARMADURA) {
+              equipo.usar(this, partyAliada.getJugadores(), null);
+          } else if (equipo.getTipo() == TipoItem.BOMBA || equipo.getTipo() == TipoItem.POCION) {
+              equipo.usar(this, partyAliada.getJugadores(), partyEnemiga.getJugadores());
+              items.remove(0);
+              System.out.println(this.nombre + " ha eliminado el consumible: " + equipo.getNombre());
+          }
+          else {
+              System.out.println("ERROR: Tipo de ítem desconocido.");
+          }
+          } else {
+              System.out.println("ERROR: No se encontró el objeto con ID: " + idObjeto);
+          }
     }
-}
-
-
-
 
     @Override
     public String getNombre() {
@@ -89,7 +73,7 @@ public abstract class Jugador implements JugadorInterface {
 
     @Override
     public List<Equipo> getItems() {
-        return this.items;  // Retorna la lista completa de ítems (decoradores)
+        return this.items;
     }
 
     @Override

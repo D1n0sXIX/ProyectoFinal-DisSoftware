@@ -9,7 +9,7 @@ public class AtaqueState implements RondaState{
       this.ronda = ronda;
   }
   public void ejecutarTurno() {
-    System.out.println("Ronda 1(tutorial): -ATAQUE-");
+    System.out.println("\n \033[34m**** Ronda 1(tutorial): -ATAQUE- ****\033[0m");
     ronda.darObjetoA(0, TipoItem.ESPADA);
     ronda.darObjetoA(1, TipoItem.ARCO);
   }

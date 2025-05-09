@@ -5,6 +5,7 @@ import clases.nivel_3.Equipo;
 import java.util.List;
 import patrones.strategy.forItems.AtaqueStrategy;
 import patrones.strategy.forItems.MejorarArmaduraStrategy;
+import patrones.strategy.forItems.SanacionStrategy;
 
 public class DecoradorNoConsumible extends EquipoDecorator {
 
@@ -16,23 +17,19 @@ public class DecoradorNoConsumible extends EquipoDecorator {
     public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
         switch (tipo) {
             case ESPADA:
-                System.out.println(personaje.getNombre() + " Toma por el culo tontito");
-                // Usamos la estrategia de ataque
+                System.out.println("\n" + personaje.getNombre() + " ha usado la espada y a tomar por culo tontito");
                 new AtaqueStrategy(false).usarItem(personaje, aliados, enemigos);
                 break;
             case BACULO:
-                System.out.println("a " + personaje.getNombre() + " le han chupado el pito");
-                // Usamos la estrategia de ataque
-                new AtaqueStrategy(false).usarItem(personaje, aliados, enemigos);
+                System.out.println("\n" + personaje.getNombre() + " ha usado el baculo y le han chupado el pito");
+                new SanacionStrategy(25,false).usarItem(personaje, aliados, enemigos);
                 break;
             case ARCO:
-                System.out.println(personaje.getNombre() + " ha cazado");
-                // Usamos la estrategia de ataque
+                System.out.println("\n" + personaje.getNombre() + " ha cazado cual Clax en la cafe (ah no xd)");
                 new AtaqueStrategy(false).usarItem(personaje, aliados, enemigos);
                 break;
             case ARMADURA:
-                System.out.println(personaje.getNombre() + ": Estoy más blindado");
-                // Usamos la estrategia de mejorar armadura
+                System.out.println("\n" + personaje.getNombre() + ": Estoy más blindado");
                 new MejorarArmaduraStrategy().usarItem(personaje, aliados, enemigos);
                 break;
         }

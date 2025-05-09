@@ -2,9 +2,8 @@ package patrones.facade;
 
 import clases.nivel_0.*;
 import clases.nivel_1.Party;
-import clases.nivel_2.Apoyo;
-import clases.nivel_2.Luchador;
-import clases.nivel_2.Rango;
+import enums.TipoPersonaje;
+import patrones.factory.FabricaPersonajes;
 import clases.nivel_2.Jugador;
 
 public class RPGFacade {
@@ -15,7 +14,7 @@ public class RPGFacade {
 
     public RPGFacade() {
       crearParties();
-      this.partida = new Partida(this.partyJugador, this.partyEnemiga);
+      this.partida = Partida.getInstance(partyJugador, partyEnemiga);
     }
 
     public void iniciarJuego() {
@@ -24,24 +23,23 @@ public class RPGFacade {
 
     private void crearParties() {
       this.partyJugador = new Party("Jugador Party");
-      Jugador luchadorAliado = new Luchador();
+      Jugador luchadorAliado = FabricaPersonajes.crearPersonaje(TipoPersonaje.LUCHADOR);
       luchadorAliado.setNombre("Bárbaro Aliado");
       this.partyJugador.addJugador(luchadorAliado);
-      Jugador rangoAliado = new Rango();
+      Jugador rangoAliado = FabricaPersonajes.crearPersonaje(TipoPersonaje.RANGO);
       rangoAliado.setNombre("Arquero Aliado");
       this.partyJugador.addJugador(rangoAliado);
-      Jugador apoyoAliado = new Apoyo();
+      Jugador apoyoAliado = FabricaPersonajes.crearPersonaje(TipoPersonaje.APOYO);
       apoyoAliado.setNombre("Sanador Aliado");
       this.partyJugador.addJugador(apoyoAliado);
-
       this.partyEnemiga = new Party("Enemigo Party");
-      Jugador luchadorEnemigo = new Luchador();
+      Jugador luchadorEnemigo = FabricaPersonajes.crearPersonaje(TipoPersonaje.LUCHADOR);
       luchadorEnemigo.setNombre("Luchador Enemigo");
       this.partyEnemiga.addJugador(luchadorEnemigo);
-      Jugador rangoEnemigo = new Rango();
+      Jugador rangoEnemigo = FabricaPersonajes.crearPersonaje(TipoPersonaje.RANGO);
       rangoEnemigo.setNombre("Tirador Enemigo");
       this.partyEnemiga.addJugador(rangoEnemigo);
-      Jugador apoyoEnemigo = new Apoyo();
+      Jugador apoyoEnemigo = FabricaPersonajes.crearPersonaje(TipoPersonaje.APOYO);
       apoyoEnemigo.setNombre("Curandero Enemigo");
       this.partyEnemiga.addJugador(apoyoEnemigo);
     }

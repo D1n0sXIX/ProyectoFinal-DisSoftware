@@ -8,6 +8,6 @@ public class CompletaState implements RondaState{
       this.ronda = ronda;
   }
   public void ejecutarTurno() {
-    System.out.println("Ronda: -COMPLETA-");
+    System.out.println("\n \033[34m**** Ronda: -COMPLETA- ****\033[0m");
   }
 }
