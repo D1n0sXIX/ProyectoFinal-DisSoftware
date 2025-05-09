@@ -6,8 +6,8 @@ import java.util.List;
 
 public class EquipoDecorator extends Equipo {
 
-    protected Equipo equipoDecorado; // El objeto Equipo que se va a decorar
-    protected Jugador jugador; // El personaje que va a ser envuelto
+    protected Equipo equipoDecorado;
+    protected Jugador jugador;
 
     public EquipoDecorator(Jugador jugador, Equipo equipoDecorado) {
         super(equipoDecorado.getNombre(), equipoDecorado.getDanio(), equipoDecorado.getTipo());
@@ -17,7 +17,7 @@ public class EquipoDecorator extends Equipo {
 
     @Override
     public String getNombre() {
-        return equipoDecorado.getNombre(); // Delegamos al equipo decorado
+        return equipoDecorado.getNombre();
     }
 
     @Override
@@ -27,11 +27,11 @@ public class EquipoDecorator extends Equipo {
 
     @Override
     public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
-        equipoDecorado.usar(personaje, aliados, enemigos); // Delegamos el uso al equipo decorado
+        equipoDecorado.usar(personaje, aliados, enemigos);
     }
 
     @Override
     public boolean esConsumible() {
-        return equipoDecorado.esConsumible(); // Delegamos si el equipo es consumible o no
+        return equipoDecorado.esConsumible();
     }
 }

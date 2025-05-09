@@ -9,7 +9,7 @@ public class CuracionState implements RondaState{
       this.ronda = ronda;
   }
   public void ejecutarTurno() {
-    System.out.println("Ronda 2(tutorial): -CURACIONES-");
+    System.out.println("\n \033[34m**** Ronda 2(tutorial): -CURACIONES- ****\033[0m");
     ronda.darObjetoA(2, TipoItem.BACULO);
     ronda.darObjetoA(0, TipoItem.ARMADURA);
   }

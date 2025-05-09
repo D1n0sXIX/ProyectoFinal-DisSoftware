@@ -7,11 +7,9 @@ public class EquipoNoConsumible extends Equipo {
 
     public EquipoNoConsumible(TipoItem tipo) {
         super(tipo.name(), calcularDanio(tipo), tipo);
-
-        // Asignamos la estrategia según el tipo
         switch (tipo) {
             case POCION:
-                this.estrategia = new SanacionStrategy(25, true);  // Estrategia de sanación para báculos
+                this.estrategia = new SanacionStrategy(25, true);
                 break;
         }
     }

@@ -11,8 +11,6 @@ public class SanacionStrategy implements usarItemStrategy{
         this.cantidad = cantidad;
         this.curarseASiMismo = curarseASiMismo;
     }
-
-    // Aqui haremos modificaciones respecto a como desarrollemos el tema de als partys y los observers
     @Override
     public void usarItem(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
       if (curarseASiMismo || aliados == null || aliados.isEmpty()) {

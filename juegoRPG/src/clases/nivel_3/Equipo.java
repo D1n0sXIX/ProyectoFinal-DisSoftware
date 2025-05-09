@@ -24,7 +24,7 @@ public abstract class Equipo implements EquipoInterface {
 
     @Override
     public int getDanio() {
-        return danio;  // El daño se obtiene directamente del objeto
+        return danio;
     }
 
     public TipoItem getTipo() {
@@ -37,11 +37,9 @@ public abstract class Equipo implements EquipoInterface {
 
     @Override
     public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
-        if (estrategia != null) {
-            estrategia.usarItem(personaje, aliados, enemigos);  // Usamos la estrategia asociada al ítem
-        }
+
     }
 
 
-    public abstract boolean esConsumible(); // importante para el personaje
+    public abstract boolean esConsumible();
 }

@@ -16,18 +16,15 @@ public class DecoradorConsumible extends EquipoDecorator {
     public void usar(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
         switch (tipo) {
             case BOMBA:
-                System.out.println(personaje.getNombre() + ": ALLAH AKBAR");
-                // Usamos la estrategia de ataque
+                System.out.println("\n" + personaje.getNombre() + "ha usado una bomba: DOROEXPLOSION!!!");
                 new AtaqueStrategy(true).usarItem(personaje, aliados, enemigos);
                 break;
             case POCION:
-                System.out.println(personaje.getNombre() + " se ha tomado una poción");
-                // Usamos la estrategia de sanación
+                System.out.println("\n" + personaje.getNombre() + " se ha tomado una poción");
                 new SanacionStrategy(20, false).usarItem(personaje, aliados, enemigos);
                 break;
         }
     }
-
     @Override
     public boolean esConsumible() {
         return true;

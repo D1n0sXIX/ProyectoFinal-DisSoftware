@@ -9,18 +9,16 @@ public class EquipoConsumible extends Equipo {
 
     public EquipoConsumible(TipoItem tipo) {
         super(tipo.name(), calcularDanio(tipo), tipo);
-
-        // Asignamos la estrategia según el tipo
         switch (tipo) {
             case ESPADA:
             case ARCO:
-                this.estrategia = new AtaqueStrategy(false);  // Estrategia de ataque para espadas y arcos
+                this.estrategia = new AtaqueStrategy(false);
                 break;
             case BACULO:
-                this.estrategia = new SanacionStrategy(25, false);  // Estrategia de sanación para báculos
+                this.estrategia = new SanacionStrategy(25, false);
                 break;
             case ARMADURA:
-                this.estrategia = new MejorarArmaduraStrategy();  // Estrategia de mejora de armadura
+                this.estrategia = new MejorarArmaduraStrategy();
                 break;
 
             case BOMBA:
@@ -33,8 +31,8 @@ public class EquipoConsumible extends Equipo {
         switch (tipo) {
             case ESPADA: return 20;
             case ARCO: return 30;
-            case BACULO: return 0; // Cura, no daño
-            case ARMADURA: return 0; // Da armadura, no daño
+            case BACULO: return 0;
+            case ARMADURA: return 0;
             case BOMBA: return 35;
             default: return 0;
         }

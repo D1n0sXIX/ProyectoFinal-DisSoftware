@@ -1,19 +1,22 @@
 package clases.nivel_0;
 
 import clases.nivel_1.Party;
-import clases.nivel_2.Apoyo;
-import clases.nivel_2.Luchador;
-import clases.nivel_2.Rango;
-import clases.nivel_3.EquipoNoConsumible;
-import enums.TipoItem;
 
 public class Partida {
   private Party partyJugador;
   private Party partyEnemiga;
+  private static Partida instancia;
 
-  public Partida(Party partyJugador, Party partyEnemiga) {
+  private Partida(Party partyJugador, Party partyEnemiga) {
       this.partyJugador = partyJugador;
       this.partyEnemiga = partyEnemiga;
+  }
+
+  public static Partida getInstance(Party partyJugador, Party partyEnemiga) {
+    if (instancia == null) {
+        instancia = new Partida(partyJugador, partyEnemiga);
+    }
+    return instancia;
   }
 
   public void iniciarJuego() {
