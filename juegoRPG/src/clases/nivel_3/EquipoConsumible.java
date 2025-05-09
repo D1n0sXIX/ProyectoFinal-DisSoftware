@@ -1,6 +1,5 @@
 package clases.nivel_3;
 
-import clases.nivel_2.Jugador;
 import enums.TipoItem;
 import patrones.strategy.forItems.AtaqueStrategy;
 import patrones.strategy.forItems.MejorarArmaduraStrategy;
@@ -23,6 +22,10 @@ public class EquipoConsumible extends Equipo {
             case ARMADURA:
                 this.estrategia = new MejorarArmaduraStrategy();  // Estrategia de mejora de armadura
                 break;
+
+            case BOMBA:
+                this.estrategia = new AtaqueStrategy(true);
+            break;
         }
     }
 
@@ -32,6 +35,7 @@ public class EquipoConsumible extends Equipo {
             case ARCO: return 30;
             case BACULO: return 0; // Cura, no daño
             case ARMADURA: return 0; // Da armadura, no daño
+            case BOMBA: return 35;
             default: return 0;
         }
     }

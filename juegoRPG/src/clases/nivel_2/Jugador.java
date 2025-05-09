@@ -3,7 +3,6 @@ package clases.nivel_2;
 import clases.nivel_1.Party;
 import clases.nivel_3.Equipo;
 import enums.TipoItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,35 +29,44 @@ public abstract class Jugador implements JugadorInterface {
     }
 
     @Override
-    public void usarObjeto(Integer idObjeto,Party partyAliada, Party partyEnemiga) {
-        System.out.println("Se ha recogido bien");//Aqui no entra y no se por qué
-        if (idObjeto >= 0 && idObjeto < items.size()) {
-            Equipo equipo = items.get(idObjeto);  // Obtener el objeto por su ID
+    public void usarObjeto(Integer idObjeto, Party partyAliada, Party partyEnemiga) {
+    System.out.println("Se ha recogido bien");
+    
+    if (idObjeto >= 0 && idObjeto < items.size()) {
+        Equipo equipo = items.get(idObjeto);  // Obtener el objeto por su ID
 
-            // Verificamos si el ítem es de tipo ataque (por ejemplo, espada o arco)
-            if (equipo.getTipo() == TipoItem.ESPADA || equipo.getTipo() == TipoItem.ARCO) {
-                // Si es un ítem de ataque, usamos la estrategia de ataque
-                System.out.println(this.nombre + " ha usado el ítem de ataque: " + equipo.getNombre());
+        // Verificamos si el ítem es de tipo ataque (por ejemplo, espada o arco)
+        if (equipo.getTipo() == TipoItem.ESPADA || equipo.getTipo() == TipoItem.ARCO) {
+            // Si es un ítem de ataque, usamos la estrategia de ataque
+            System.out.println(this.nombre + " ha usado el ítem de ataque: " + equipo.getNombre());
+            equipo.usar(this, null, partyEnemiga.getJugadores());  // Aplica el daño al enemigo seleccionado
 
-                // Usar la estrategia de ataque, pasando la lista de enemigos
-                equipo.usar(this, null, partyEnemiga.getJugadores());  // Aplica el daño al enemigo seleccionado
+            // Eliminar el objeto de la lista de items después de usarlo (si es no consumible)
+            items.remove(idObjeto);
+            System.out.println(this.nombre + " ha eliminado el ítem: " + equipo.getNombre());
 
-            } else if (equipo.getTipo() == TipoItem.BACULO || equipo.getTipo() == TipoItem.ARMADURA) {
-                // Si es un ítem de tipo curación o mejora de armadura
-                System.out.println(this.nombre + " ha usado el ítem de curación o armadura: " + equipo.getNombre());
+        } else if (equipo.getTipo() == TipoItem.BACULO || equipo.getTipo() == TipoItem.ARMADURA) {
+            // Si es un ítem de tipo curación o mejora de armadura
+            System.out.println(this.nombre + " ha usado el ítem de curación o armadura: " + equipo.getNombre());
+            equipo.usar(this, partyAliada.getJugadores(), null);  // En este caso no afecta a los enemigos, solo a los aliados o al propio jugador
 
-                // Usar la estrategia de curación o mejora de armadura (según el tipo de ítem)
-                equipo.usar(this, partyAliada.getJugadores(), null);  // En este caso no afecta a los enemigos, solo a los aliados o al propio jugador
+        } else if (equipo.getTipo() == TipoItem.BOMBA || equipo.getTipo() == TipoItem.POCION) {
+            // Si es un consumible
+            System.out.println(this.nombre + " ha usado el consumible: " + equipo.getNombre());
+            equipo.usar(this, partyAliada.getJugadores(), partyEnemiga.getJugadores());
 
-            } else {
-                // Si el ítem no es un tipo de ataque o curación conocido
-                System.out.println("ERROR: Tipo de ítem desconocido.");
-            }
-        } else {
-            System.out.println("ERROR: No se encontró el objeto con ID: " + idObjeto);
+            // Eliminar el objeto consumible después de usarlo (esto debería funcionar ahora)
+            items.remove(idObjeto); // Eliminamos el consumible correctamente
+            System.out.println(this.nombre + " ha eliminado el consumible: " + equipo.getNombre());
         }
+        else {
+            // Si el ítem no es un tipo de ataque o curación conocido
+            System.out.println("ERROR: Tipo de ítem desconocido.");
+        }
+    } else {
+        System.out.println("ERROR: No se encontró el objeto con ID: " + idObjeto);
     }
-
+}
 
 
 
