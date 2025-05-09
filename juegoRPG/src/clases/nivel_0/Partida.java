@@ -18,8 +18,13 @@ public class Partida {
 
   public void iniciarJuego() {
     Ronda ronda = new Ronda(partyJugador, partyEnemiga);
-    while (!partyJugador.isPartyEmpty() && ronda.getNumeroRonda() < 5) {
+    while (!partyJugador.isPartyEmpty() && ronda.getNumeroRonda() <= 5) {
         ronda.ejecutarTurno();
+        if(ronda.getNumeroRonda() == 5) {
+          if (ronda.terminarJuego()) {
+            break;
+          }
+        }
     }
 }
 

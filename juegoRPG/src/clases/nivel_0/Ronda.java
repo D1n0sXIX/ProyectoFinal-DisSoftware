@@ -61,19 +61,28 @@ public class Ronda {
 
     private void verificarEliminacion() {
 
-        //voy a verificar que las partys esten muertas
-        this.partyJugador.getJugadores().removeIf(j -> j.getVida() <= 0);
-        this.partyEnemiga.getJugadores().removeIf(e -> e.getVida() <= 0);
-        if (this.partyJugador.isPartyEmpty() || this.numeroRonda > 5) {
-            terminarJuego();
-        } else if (partyEnemiga.isPartyEmpty()) {
-            pasarSiguienteFase();
-        }
+      this.partyJugador.getJugadores().removeIf(j -> j.getVida() <= 0);
+      this.partyEnemiga.getJugadores().removeIf(e -> e.getVida() <= 0);
+      if (this.partyJugador.isPartyEmpty()) {
+        System.out.println("\n💀 Has sido derrotado. ¡Game Over!");
+        terminarJuego();
+        return;
+      }
+      if (partyEnemiga.isPartyEmpty()) {
+          if (this.numeroRonda >= 5) {
+            System.out.println("\n🏆 ¡Enhorabuena! Has completado las 5 rondas y ganado la partida.");
+              terminarJuego(); // Terminamos el juego
+          } else {
+              pasarSiguienteFase(); // Pasamos a la siguiente fase si no estamos en la ronda 5
+          }
+      }
+      else if (this.numeroRonda > 5) {
+          terminarJuego();
+      }
     }
 
     public void pasarSiguienteFase() {
       if (this.numeroRonda.equals(5)) {
-          System.out.println("¡La batalla ha terminado! El juego ha finalizado.");
           return;
       }
       this.turno = 0;
@@ -112,13 +121,13 @@ public class Ronda {
         partyEnemiga.addJugador(apoyoEnemigo);
     }
 
-
-    public void terminarJuego() {
+    public boolean terminarJuego() {
       if (this.partyJugador.isPartyEmpty()) {
-        System.out.println("\n💀 Has sido derrotado. ¡Game Over!");
-    } else {
-        System.out.println("\n🏆 ¡Enhorabuena! Has completado las 5 rondas y ganado la partida.");
-    }
+          return true;
+      } else if(this.partyEnemiga.isPartyEmpty()){
+          return true;
+      }
+      return false;
     }
 
     public Party getPartyEnemiga() {

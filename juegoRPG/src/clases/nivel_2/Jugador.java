@@ -20,6 +20,7 @@ public abstract class Jugador implements JugadorInterface {
     }
 
     @Override
+
     public void recibirObjeto(Equipo itemNuevo) {
         if (itemNuevo != null) {
             // Si el jugador ya tiene un equipo, lo decoramos con el nuevo objeto
@@ -31,7 +32,7 @@ public abstract class Jugador implements JugadorInterface {
     @Override
     public void usarObjeto(Integer idObjeto, Party partyAliada, Party partyEnemiga) {
     System.out.println("Se ha recogido bien");
-    
+
     if (idObjeto >= 0 && idObjeto < items.size()) {
         Equipo equipo = items.get(idObjeto);  // Obtener el objeto por su ID
 
