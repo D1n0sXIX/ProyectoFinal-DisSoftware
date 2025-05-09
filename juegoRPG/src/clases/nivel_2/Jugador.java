@@ -1,6 +1,9 @@
 package clases.nivel_2;
 
+import clases.nivel_1.Party;
 import clases.nivel_3.Equipo;
+import enums.TipoItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +30,37 @@ public abstract class Jugador implements JugadorInterface {
     }
 
     @Override
-    public void usarObjeto(Integer idObjeto) {
+    public void usarObjeto(Integer idObjeto, Party partyEnemiga) {
+        System.out.println("Se ha recogido bien");//Aqui no entra y no se por qué
         if (idObjeto >= 0 && idObjeto < items.size()) {
-            Equipo equipo = items.get(idObjeto);  // Obtenemos el objeto por su ID (índice)
-            equipo.usar(this, null, null);  // Usamos el objeto (enviamos el jugador y sus aliados/enemigos si es necesario)
-            System.out.println(this.nombre + " ha usado: " + equipo.getNombre());
+            Equipo equipo = items.get(idObjeto);  // Obtener el objeto por su ID
+
+            // Verificamos si el ítem es de tipo ataque (por ejemplo, espada o arco)
+            if (equipo.getTipo() == TipoItem.ESPADA || equipo.getTipo() == TipoItem.ARCO) {
+                // Si es un ítem de ataque, usamos la estrategia de ataque
+                System.out.println(this.nombre + " ha usado el ítem de ataque: " + equipo.getNombre());
+
+                // Usar la estrategia de ataque, pasando la lista de enemigos
+                equipo.usar(this, null, partyEnemiga.getJugadores());  // Aplica el daño al enemigo seleccionado
+
+            } else if (equipo.getTipo() == TipoItem.BACULO || equipo.getTipo() == TipoItem.ARMADURA) {
+                // Si es un ítem de tipo curación o mejora de armadura
+                System.out.println(this.nombre + " ha usado el ítem de curación o armadura: " + equipo.getNombre());
+
+                // Usar la estrategia de curación o mejora de armadura (según el tipo de ítem)
+                equipo.usar(this, null, null);  // En este caso no afecta a los enemigos, solo a los aliados o al propio jugador
+
+            } else {
+                // Si el ítem no es un tipo de ataque o curación conocido
+                System.out.println("ERROR: Tipo de ítem desconocido.");
+            }
         } else {
-            System.out.println("ERROR: No se encontró el objeto");
+            System.out.println("ERROR: No se encontró el objeto con ID: " + idObjeto);
         }
     }
+
+
+
 
 
     @Override

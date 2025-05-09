@@ -9,4 +9,9 @@ public class Rango extends Jugador{
     public Rango() {
     super(vida, nombre, armadura);
     }
+
+    @Override
+    public void usarObjeto(Integer idObjeto) {
+
+    }
 }

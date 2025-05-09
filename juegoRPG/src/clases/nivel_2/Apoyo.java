@@ -9,4 +9,9 @@ public class Apoyo extends Jugador {
     public Apoyo() {
     super(vida, nombre, armadura);
     }
+
+    @Override
+    public void usarObjeto(Integer idObjeto) {
+
+    }
 }

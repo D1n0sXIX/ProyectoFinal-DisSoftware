@@ -42,5 +42,6 @@ public abstract class Equipo implements EquipoInterface {
         }
     }
 
+
     public abstract boolean esConsumible(); // importante para el personaje
 }

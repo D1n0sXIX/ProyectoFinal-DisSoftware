@@ -10,4 +10,8 @@ public class Luchador extends Jugador {
     super(vida, nombre, armadura);
 }
 
+    @Override
+    public void usarObjeto(Integer idObjeto) {
+
+    }
 }

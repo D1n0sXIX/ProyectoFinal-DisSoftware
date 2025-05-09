@@ -50,6 +50,11 @@ public class Ronda {
     }
 
     private void verificarEliminacion() {
+
+        //voy a verificar que las partys esten muertas
+        partyJugador.getJugadores().removeIf(jugador -> jugador.getVida() <= 0);
+        partyEnemiga.getJugadores().removeIf(enemigo -> enemigo.getVida() <= 0);
+
         if (this.partyJugador.isPartyEmpty()) {
             System.out.println("La party del jugador ha sido eliminada.");
             terminarJuego();
@@ -86,11 +91,20 @@ public class Ronda {
     }
 
     private void reiniciarPartyEnemiga() {
-      partyEnemiga.getJugadores().clear();
-      partyEnemiga.addJugador(new Luchador());
-      partyEnemiga.addJugador(new Rango());
-      partyEnemiga.addJugador(new Apoyo());
+        partyEnemiga.getJugadores().clear();
+        Luchador luchadorEnemigo = new Luchador();
+        luchadorEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.ESPADA));
+        partyEnemiga.addJugador(luchadorEnemigo);
+
+        Rango rangoEnemigo = new Rango();
+        rangoEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.ARCO));
+        partyEnemiga.addJugador(rangoEnemigo);
+
+        Apoyo apoyoEnemigo = new Apoyo();
+        apoyoEnemigo.recibirObjeto(new EquipoConsumible(TipoItem.BACULO));
+        partyEnemiga.addJugador(apoyoEnemigo);
     }
+
 
     public void terminarJuego() {
         System.out.println("¡Juego terminado! La *party* enemiga ha sido derrotada.");
@@ -126,44 +140,84 @@ public class Ronda {
     }
 
     public void esTurnoDe(Jugador jugador) {
-      Scanner escaner = new Scanner(System.in);
-      Integer opcion;
-      do {
-        System.out.println("1. Usar item  -  2. Cambiar objeto  -  3. Pasar turno");
-        opcion = escaner.nextInt();
-        escaner.nextLine();
-        seleccionarAccion(opcion, jugador);
-      }while(opcion > 3 || opcion < 1);
-      escaner.close();
+        Scanner escaner = new Scanner(System.in);  // Deja el Scanner abierto
+        Integer opcion = null;
+
+        // Bucle para garantizar que se ingrese una opción válida
+        do {
+            System.out.println("Estado de los jugadores:");
+
+            // Imprimir la vida de los jugadores de la party del jugador
+            System.out.println("Party del Jugador:");
+            for (Jugador j : partyJugador.getJugadores()) {
+                System.out.println(j.getNombre() + " - Vida: " + j.getVida());
+            }
+
+            // Imprimir la vida de los jugadores de la party enemiga
+            System.out.println("Party Enemiga:");
+            for (Jugador e : partyEnemiga.getJugadores()) {
+                System.out.println(e.getNombre() + " - Vida: " + e.getVida());
+            }
+
+            System.out.println("1. Usar item  -  2. Cambiar objeto  -  3. Pasar turno");
+
+            if (escaner.hasNextInt()) {  // Si la entrada es un número entero
+                opcion = escaner.nextInt();  // Leer el número ingresado
+                if (escaner.hasNextLine()) {
+                    escaner.nextLine();  // Consumir la nueva línea sobrante
+                }
+
+                if (opcion >= 1 && opcion <= 3) {
+                    // Validar que la opción esté entre 1 y 3
+                    seleccionarAccion(opcion, jugador);  // Ejecutar la acción seleccionada
+                } else {
+                    System.out.println("Opción inválida. Por favor, ingresa un número entre 1 y 3.");
+                }
+            } else {
+                System.out.println("Entrada inválida. Por favor, ingresa un número entero.");
+                escaner.next();  // Descartar la entrada no válida
+            }
+        } while (opcion == null || opcion < 1 || opcion > 3);  // Repetir hasta que se ingrese una opción válida
+        // No cerramos el scanner aquí, se cerrará cuando termine toda la interacción del programa
     }
+
+
 
     private void turnoAleatorioEnemigo(Jugador enemigo) {
-      Random random = new Random();
-      int accion = random.nextInt(3) + 1;
-      seleccionarAccion(accion, enemigo);
+        Random random = new Random();
+        int accion = random.nextInt(3) + 1;
+
+        if (enemigo.getItems().size() > 0) {
+            System.out.println(enemigo.getNombre() + " está atacando...");
+            enemigo.usarObjeto(0, partyJugador);
+        } else {
+            System.out.println(enemigo.getNombre() + " ha pasado el turno.");
+        }
     }
+
 
     public void cambiarObjeto(Jugador jugador) {
-      if (jugador.getItems().isEmpty()) {
-        System.out.println(jugador.getNombre() + " no tiene ítems para cambiar. Eres tonto al estilo doro!");
-        return;
-      }
+        if (jugador.getItems().isEmpty()) {
+            System.out.println(jugador.getNombre() + " no tiene ítems para cambiar.");
+            return;
+        }
 
-      if (jugador.getItems().size() > 1) {
-        Equipo primerItem = jugador.getItems().get(0);
-        Equipo segundoItem = jugador.getItems().get(1);
-        jugador.getItems().set(0, segundoItem);
-        jugador.getItems().set(1, primerItem);
-        System.out.println(jugador.getNombre() + " ha cambiado el objeto activo a "+ jugador.getItems().get(0).getNombre());
-      } else {
-          System.out.println("No hay suficientes ítems para cambiar.");
-      }
+        if (jugador.getItems().size() > 1) {
+            Equipo primerItem = jugador.getItems().get(0);
+            Equipo segundoItem = jugador.getItems().get(1);
+            jugador.getItems().set(0, segundoItem);
+            jugador.getItems().set(1, primerItem);
+            System.out.println(jugador.getNombre() + " ha cambiado el objeto activo a " + jugador.getItems().get(0).getNombre());
+        } else {
+            System.out.println("No hay suficientes ítems para cambiar.");
+        }
     }
+
 
     public void seleccionarAccion(Integer opcion, Jugador jugador) {
       switch (opcion) {
         case 1:
-          jugador.usarObjeto(0);
+            jugador.usarObjeto(0, this.partyEnemiga);
           break;
         case 2:
           cambiarObjeto(jugador);

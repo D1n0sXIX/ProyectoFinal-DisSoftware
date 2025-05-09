@@ -1,8 +1,11 @@
 package clases.nivel_2;
+import clases.nivel_1.Party;
 import clases.nivel_3.Equipo;
 import java.util.List;
 
 public interface JugadorInterface {
+    void usarObjeto(Integer idObjeto, Party partyEnemiga);
+
     String getNombre();
     void recibirDanio(Integer catidad);
     void recibirObjeto(Equipo equipo);
