@@ -4,7 +4,7 @@ import clases.nivel_3.Equipo;
 import java.util.List;
 
 public interface JugadorInterface {
-    void usarObjeto(Integer idObjeto, Party partyEnemiga);
+    void usarObjeto(Integer idObjeto,Party partyAliada, Party partyEnemiga);
 
     String getNombre();
     void recibirDanio(Integer catidad);
@@ -15,4 +15,5 @@ public interface JugadorInterface {
     public Integer getArmadura();
     public void recibirCuracion(Integer cantidad);
     public Integer getVida();
+    public void setNombre(String nombre);
 }

@@ -17,12 +17,10 @@ public class Partida {
   }
 
   public void iniciarJuego() {
-    configurarParties();
     Ronda ronda = new Ronda(partyJugador, partyEnemiga);
-    while (!partyJugador.isPartyEmpty()) {
+    while (!partyJugador.isPartyEmpty() && ronda.getNumeroRonda() < 5) {
         ronda.ejecutarTurno();
     }
-    ronda.terminarJuego();
 }
 
   public Party getPartyJugador() {
@@ -32,25 +30,5 @@ public class Partida {
   public Party getPartyEnemiga() {
       return partyEnemiga;
   }
-
-    private void configurarParties() {
-        // Agregar jugadores a la party del jugador
-        partyJugador.addJugador(new Luchador());
-        partyJugador.addJugador(new Rango());
-        partyJugador.addJugador(new Apoyo());
-
-        // Agregar enemigos a la party enemiga con un ítem de ataque adecuado
-        Luchador luchadorEnemigo = new Luchador();
-        luchadorEnemigo.recibirObjeto(new EquipoNoConsumible(TipoItem.ESPADA)); // Asegúrate de asignar un ítem de ataque
-        partyEnemiga.addJugador(luchadorEnemigo);
-
-        Rango rangoEnemigo = new Rango();
-        rangoEnemigo.recibirObjeto(new EquipoNoConsumible(TipoItem.ARCO)); // Asegúrate de asignar un ítem de ataque
-        partyEnemiga.addJugador(rangoEnemigo);
-
-        Apoyo apoyoEnemigo = new Apoyo();
-        apoyoEnemigo.recibirObjeto(new EquipoNoConsumible(TipoItem.BACULO)); // Si es un apoyo, un báculo
-        partyEnemiga.addJugador(apoyoEnemigo);
-    }
 
 }

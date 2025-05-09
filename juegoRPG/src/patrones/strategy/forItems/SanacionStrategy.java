@@ -15,13 +15,14 @@ public class SanacionStrategy implements usarItemStrategy{
     // Aqui haremos modificaciones respecto a como desarrollemos el tema de als partys y los observers
     @Override
     public void usarItem(Jugador personaje, List<Jugador> aliados, List<Jugador> enemigos) {
-        if (curarseASiMismo) {
-            personaje.recibirCuracion(personaje.getVida()+personaje.getItems().get(1).getDanio());
-            System.out.println(personaje.getNombre() + " se cura " + cantidad + " de vida.");
-        } else if (!aliados.isEmpty()) {
-            Jugador objetivo = aliados.get(0); // puedes hacer selección más avanzada luego
-            objetivo.recibirCuracion(objetivo.getVida()+objetivo.getItems().get(1).getDanio());
-            System.out.println(personaje.getNombre() + " cura a " + objetivo.getNombre() + " con " + cantidad + " de vida.");
-        }
+      if (curarseASiMismo || aliados == null || aliados.isEmpty()) {
+        personaje.recibirCuracion(cantidad);
+        System.out.println(personaje.getNombre() + " se cura " + cantidad + " de vida.");
+      } else {
+        Jugador objetivo = aliados.get(0);
+        objetivo.recibirCuracion(cantidad);
+        System.out.println(personaje.getNombre() + " cura a "
+            + objetivo.getNombre() + " con " + cantidad + " de vida.");
+      }
     }
 }

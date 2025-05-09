@@ -30,7 +30,7 @@ public abstract class Jugador implements JugadorInterface {
     }
 
     @Override
-    public void usarObjeto(Integer idObjeto, Party partyEnemiga) {
+    public void usarObjeto(Integer idObjeto,Party partyAliada, Party partyEnemiga) {
         System.out.println("Se ha recogido bien");//Aqui no entra y no se por qué
         if (idObjeto >= 0 && idObjeto < items.size()) {
             Equipo equipo = items.get(idObjeto);  // Obtener el objeto por su ID
@@ -48,7 +48,7 @@ public abstract class Jugador implements JugadorInterface {
                 System.out.println(this.nombre + " ha usado el ítem de curación o armadura: " + equipo.getNombre());
 
                 // Usar la estrategia de curación o mejora de armadura (según el tipo de ítem)
-                equipo.usar(this, null, null);  // En este caso no afecta a los enemigos, solo a los aliados o al propio jugador
+                equipo.usar(this, partyAliada.getJugadores(), null);  // En este caso no afecta a los enemigos, solo a los aliados o al propio jugador
 
             } else {
                 // Si el ítem no es un tipo de ataque o curación conocido
@@ -70,7 +70,12 @@ public abstract class Jugador implements JugadorInterface {
 
     @Override
     public void recibirDanio(Integer cantidad) {
-        this.vida -= cantidad;  // Aplica el daño recibido
+      int danioReducido = cantidad - this.armadura;
+      int danioFinal = Math.max(danioReducido, 1);
+      this.vida -= danioFinal;
+      if (this.vida < 0) {
+          this.vida = 0;
+      }
     }
 
     @Override
@@ -96,5 +101,8 @@ public abstract class Jugador implements JugadorInterface {
       this.vida += cantidad;
     }
 
+    public void setNombre(String nombre) {
+      this.nombre = nombre;
+    }
 
 }
