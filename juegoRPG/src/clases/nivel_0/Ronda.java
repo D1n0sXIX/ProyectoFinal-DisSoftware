@@ -7,6 +7,7 @@ import enums.*;
 import patrones.abstractFactory.*;
 import patrones.state.*;
 import java.util.Scanner;
+import java.util.List;
 import java.util.Random;
 
 public class Ronda {
@@ -30,18 +31,27 @@ public class Ronda {
     }
 
     public void ejecutarTurno() {
+      System.out.println("\n========================================");
+      System.out.printf("        RONDA %d — Turno %d%n", numeroRonda, turno);
+      System.out.println("========================================\n");
       if (esTurnoJugador) {
+        System.out.println("\n>>> TURNO: TU PARTY <<<");
         System.out.print("Es el turno de TU party!." + "-Turno: " + this.turno + "\n");
         for (Jugador jugador : partyJugador.getJugadores()) {
-            System.out.println("Turno de: " + jugador.getNombre());
-            esTurnoDe(jugador);
+          System.out.println("\n--- Turno de: " + jugador.getNombre() + " ---");
+          esTurnoDe(jugador);
+          verificarEliminacion();
+          if (partyEnemiga.isPartyEmpty()) break;
         }
         esTurnoJugador = false;
       } else {
+        System.out.println("\n>>> TURNO: PARTY ENEMIGA <<<");
         System.out.println("Es el turno de la Party Enemiga." + "-Turno: " + this.turno);
         for (Jugador enemigo : partyEnemiga.getJugadores()) {
-            System.out.println("Turno de: " + enemigo.getNombre());
-            turnoAleatorioEnemigo(enemigo);
+          System.out.println("\n--- Turno de: " + enemigo.getNombre() + " ---");
+          turnoAleatorioEnemigo(enemigo);
+          verificarEliminacion();
+          if (partyJugador.isPartyEmpty()) break;
         }
         esTurnoJugador = true;
     }
@@ -52,14 +62,11 @@ public class Ronda {
     private void verificarEliminacion() {
 
         //voy a verificar que las partys esten muertas
-        partyJugador.getJugadores().removeIf(jugador -> jugador.getVida() <= 0);
-        partyEnemiga.getJugadores().removeIf(enemigo -> enemigo.getVida() <= 0);
-
-        if (this.partyJugador.isPartyEmpty()) {
-            System.out.println("La party del jugador ha sido eliminada.");
+        this.partyJugador.getJugadores().removeIf(j -> j.getVida() <= 0);
+        this.partyEnemiga.getJugadores().removeIf(e -> e.getVida() <= 0);
+        if (this.partyJugador.isPartyEmpty() || this.numeroRonda > 5) {
             terminarJuego();
-        } else if (this.partyEnemiga.isPartyEmpty()) {
-            System.out.println("La party enemiga ha sido eliminada.");
+        } else if (partyEnemiga.isPartyEmpty()) {
             pasarSiguienteFase();
         }
     }
@@ -69,7 +76,8 @@ public class Ronda {
           System.out.println("¡La batalla ha terminado! El juego ha finalizado.");
           return;
       }
-
+      this.turno = 0;
+      esTurnoJugador = true;
       if (this.numeroRonda.equals(4)) {
         this.estadoActual = new CompletaState();
       } else if (this.estadoActual instanceof AtaqueState) {
@@ -79,11 +87,10 @@ public class Ronda {
       } else if (this.estadoActual instanceof ConsumiblesState) {
         this.estadoActual = new CompletaState();
       }
-      this.estadoActual.ejecutarTurno();
       this.numeroRonda++;
-      this.estadoActual.setContexto(this);
-      this.turno = 0;
       System.out.println("Pasando a la siguiente fase: Ronda " + this.numeroRonda);
+      this.estadoActual.setContexto(this);
+      this.estadoActual.ejecutarTurno();
       if (this.partyEnemiga.isPartyEmpty()) {
         System.out.println("Generando enemigos...");
         reiniciarPartyEnemiga();
@@ -107,7 +114,11 @@ public class Ronda {
 
 
     public void terminarJuego() {
-        System.out.println("¡Juego terminado! La *party* enemiga ha sido derrotada.");
+      if (this.partyJugador.isPartyEmpty()) {
+        System.out.println("\n💀 Has sido derrotado. ¡Game Over!");
+    } else {
+        System.out.println("\n🏆 ¡Enhorabuena! Has completado las 5 rondas y ganado la partida.");
+    }
     }
 
     public Party getPartyEnemiga() {
@@ -145,29 +156,26 @@ public class Ronda {
 
         // Bucle para garantizar que se ingrese una opción válida
         do {
-            System.out.println("Estado de los jugadores:");
-
-            // Imprimir la vida de los jugadores de la party del jugador
-            System.out.println("Party del Jugador:");
-            for (Jugador j : partyJugador.getJugadores()) {
-                System.out.println(j.getNombre() + " - Vida: " + j.getVida());
-            }
-
-            // Imprimir la vida de los jugadores de la party enemiga
-            System.out.println("Party Enemiga:");
-            for (Jugador e : partyEnemiga.getJugadores()) {
-                System.out.println(e.getNombre() + " - Vida: " + e.getVida());
-            }
-
-            System.out.println("1. Usar item  -  2. Cambiar objeto  -  3. Pasar turno");
-
+          System.out.println("\n--- ESTADO DE LOS JUGADORES ---");
+          System.out.printf("%-30s %s%n", "Party Jugador", "Party Enemiga");
+          int max = Math.max(partyJugador.getJugadores().size(), partyEnemiga.getJugadores().size());
+          for (int i = 0; i < max; i++) {
+              String izq = i < partyJugador.getJugadores().size()
+                  ? partyJugador.getJugadores().get(i).getNombre() + " - HP: " + partyJugador.getJugadores().get(i).getVida()
+                  : "";
+              String der = i < partyEnemiga.getJugadores().size()
+                  ? partyEnemiga.getJugadores().get(i).getNombre() + " - HP: " + partyEnemiga.getJugadores().get(i).getVida()
+                  : "";
+              System.out.printf("%-30s %s%n", izq, der);
+          }
+            System.out.println("\n1. Usar item  -  2. Cambiar objeto  -  3. Pasar turno  -  4. Listar objetos");
             if (escaner.hasNextInt()) {  // Si la entrada es un número entero
                 opcion = escaner.nextInt();  // Leer el número ingresado
                 if (escaner.hasNextLine()) {
                     escaner.nextLine();  // Consumir la nueva línea sobrante
                 }
 
-                if (opcion >= 1 && opcion <= 3) {
+                if (opcion >= 1 && opcion <= 4) {
                     // Validar que la opción esté entre 1 y 3
                     seleccionarAccion(opcion, jugador);  // Ejecutar la acción seleccionada
                 } else {
@@ -177,22 +185,26 @@ public class Ronda {
                 System.out.println("Entrada inválida. Por favor, ingresa un número entero.");
                 escaner.next();  // Descartar la entrada no válida
             }
-        } while (opcion == null || opcion < 1 || opcion > 3);  // Repetir hasta que se ingrese una opción válida
+        } while (opcion == null || (opcion != 3 && opcion != 1));  // Repetir hasta que se ingrese una opción válida
         // No cerramos el scanner aquí, se cerrará cuando termine toda la interacción del programa
     }
 
 
 
     private void turnoAleatorioEnemigo(Jugador enemigo) {
-        Random random = new Random();
-        int accion = random.nextInt(3) + 1;
-
-        if (enemigo.getItems().size() > 0) {
-            System.out.println(enemigo.getNombre() + " está atacando...");
-            enemigo.usarObjeto(0, partyJugador);
-        } else {
-            System.out.println(enemigo.getNombre() + " ha pasado el turno.");
-        }
+      Random random = new Random();
+      int probabilidad = random.nextInt(100);
+      System.out.printf("\n--- prob num: %d---\n", probabilidad);
+      if (probabilidad < 77) {
+          System.out.println(enemigo.getNombre() + " ha pasado el turno.");
+      } else {
+          System.out.println(enemigo.getNombre() + " está atacando...");
+          if (enemigo.getItems().size() > 0) {
+              enemigo.usarObjeto(0, this.partyEnemiga, this.partyJugador);
+          } else {
+              System.out.println(enemigo.getNombre() + " no tiene ítems para usar.");
+          }
+      }
     }
 
 
@@ -217,16 +229,40 @@ public class Ronda {
     public void seleccionarAccion(Integer opcion, Jugador jugador) {
       switch (opcion) {
         case 1:
-            jugador.usarObjeto(0, this.partyEnemiga);
+          jugador.usarObjeto(0, this.partyJugador, this.partyEnemiga);
           break;
         case 2:
           cambiarObjeto(jugador);
+          opcion = null;
           break;
         case 3:
           System.out.println(jugador.getNombre() + " ha pasado el turno.");
           break;
+        case 4:
+          listarObjetos(jugador);
+          opcion = null;
+          break;
         default:
           System.out.println("ERROR al estilo doro(eso no es válido)");
+      }
+    }
+
+    private void listarObjetos(Jugador jugador) {
+      List<Equipo> items = jugador.getItems();
+      System.out.println("\n--- Objetos de " + jugador.getNombre() + " ---");
+      if (items.isEmpty()) {
+          System.out.println("No tienes ningún objeto.");
+      } else {
+          for (int i = 0; i < items.size(); i++) {
+              Equipo item = items.get(i);
+              if(i==0) {
+                System.out.printf("**EQUIPADO** %s (Tipo: %s, Daño/Valor: %d)%n",
+                                  item.getNombre(), item.getTipo(), item.getDanio());
+              } else {
+                System.out.printf("%d) %s (Tipo: %s, Daño/Valor: %d)%n",
+                                  i, item.getNombre(), item.getTipo(), item.getDanio());
+              }
+          }
       }
     }
 }

@@ -2,6 +2,7 @@ package patrones.strategy.forItems;
 
 import clases.nivel_2.Jugador;
 import java.util.List;
+import java.util.Random;
 
 public class AtaqueStrategy implements usarItemStrategy {
     private final boolean atacarATodos;
@@ -23,8 +24,10 @@ public class AtaqueStrategy implements usarItemStrategy {
                 System.out.println(personaje.getNombre() + " ataca a " + enemigo.getNombre() + " con ataque en área");
             }
         } else {
-            Jugador objetivo = enemigos.get(0);  // Selección avanzada podría hacerse después
-            objetivo.recibirDanio(danio);  // Aplica el daño al primer enemigo
+            Random rnd = new Random();
+            int idx = rnd.nextInt(enemigos.size());
+            Jugador objetivo = enemigos.get(idx);
+            objetivo.recibirDanio(danio);
             System.out.println(personaje.getNombre() + " ataca a " + objetivo.getNombre());
         }
     }
