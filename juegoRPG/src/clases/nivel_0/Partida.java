@@ -1,6 +1,9 @@
 package clases.nivel_0;
 
 import clases.nivel_1.Party;
+import clases.nivel_2.Apoyo;
+import clases.nivel_2.Luchador;
+import clases.nivel_2.Rango;
 
 public class Partida {
   private Party partyJugador;
@@ -12,6 +15,7 @@ public class Partida {
   }
 
   public void iniciarJuego() {
+    configurarParties();
     Ronda ronda = new Ronda(partyJugador, partyEnemiga);
     while (!partyJugador.isPartyEmpty()) {
         ronda.ejecutarTurno();
@@ -34,4 +38,16 @@ public class Partida {
   public Party getPartyEnemiga() {
       return partyEnemiga;
   }
+
+  private void configurarParties() {
+        // Agregar jugadores a la party del jugador
+        partyJugador.addJugador(new Luchador());
+        partyJugador.addJugador(new Rango());
+        partyJugador.addJugador(new Apoyo());
+
+        // Agregar enemigos a la party enemiga
+        partyEnemiga.addJugador(new Luchador());
+        partyEnemiga.addJugador(new Rango());
+        partyEnemiga.addJugador(new Apoyo());
+    }
 }
